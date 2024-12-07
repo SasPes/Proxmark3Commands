@@ -1,5 +1,5 @@
 # Proxmark3 Commands
-![PM3Easy](img/pm3easyNew.png)  
+![PM3Easy](img/pm3easy.png)  
 
 ![LF](img/RFID-Card-3-e1587108734574.png)   
 ## Low Frequency (LF)
