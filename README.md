@@ -1,5 +1,5 @@
 # Proxmark3 Commands
-![LF](img/RFID-Card-3-e1587108734574.png) <img src="img/pm3easy.png" width="400">   
+<img src="img/RFID-Card-3-e1587108734574.png" width="400"> <img src="img/pm3easy.png" width="400">   
 ## Low Frequency (LF)
 125 KHz or 134.2 KHz   
 Protocol: ISO 11784 / 11785   
