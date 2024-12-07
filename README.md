@@ -1,9 +1,7 @@
 # Proxmark3 Commands
 
-[Proxmark Wiki](https://github.com/Proxmark/proxmark3/wiki)
-
-## Low Frequency (LF)
 ![LF](img/RFID-Card-3-e1587108734574.png)   
+## Low Frequency (LF)
 125 KHz or 134.2 KHz   
 Protocol: ISO 11784 / 11785   
 Short reading range, around 1-5 cm   
@@ -38,9 +36,10 @@ lf indala reader
 lf indala clone -r <raw>
 ```
 
-
-## High  Frequency (HF)
+---
+   
 ![HF](img/RFID-Card-4-e1587108920704.png)   
+## High  Frequency (HF)
 13.56 MHz   
 Protocol: ISO 14443A / 14443B / 15693   
 Short reading range, around 2-10 cm   
@@ -77,7 +76,8 @@ hf legic info
 ```
 
 ## Links
-1. [MIFARE Classic: exposing the static encrypted nonce variant](https://eprint.iacr.org/2024/1275.pdf)
-2. [Mifare HowTo](https://github.com/Proxmark/proxmark3/wiki/Mifare-HowTo)
-3. [Study of vulnerabilities in MIFARE Classic cards](https://www.sidechannel.blog/en/mifare-classic-2/)
-4. [RFID / NFC Card](https://nexqo.com/portfolio-items/rfid-nfc-card/)
+1. [Proxmark Wiki](https://github.com/Proxmark/proxmark3/wiki)
+2. [MIFARE Classic: exposing the static encrypted nonce variant](https://eprint.iacr.org/2024/1275.pdf)
+3. [Mifare HowTo](https://github.com/Proxmark/proxmark3/wiki/Mifare-HowTo)
+4. [Study of vulnerabilities in MIFARE Classic cards](https://www.sidechannel.blog/en/mifare-classic-2/)
+5. [RFID / NFC Card](https://nexqo.com/portfolio-items/rfid-nfc-card/)
