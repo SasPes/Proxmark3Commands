@@ -39,6 +39,11 @@ hf search
 ```
 
 ### ISO 14443-A / Mifare Classic 1K
+| Type | Gen |
+|---|---|
+| UID | Magic Gen 1 (backdoor command 20:23 auth) |
+| CUID | Magic Gen 2 (Mifare Classic Tool compatible direct write) |
+| GDM / USCUID | Magic Gen 4 |
 ```
 hf mf info
 hf mf autopwn
@@ -59,3 +64,5 @@ hf legic info
 
 ## Links
 1. [MIFARE Classic: exposing the static encrypted nonce variant](https://eprint.iacr.org/2024/1275.pdf)
+2. [Mifare HowTo](https://github.com/Proxmark/proxmark3/wiki/Mifare-HowTo)
+3. [Study of vulnerabilities in MIFARE Classic cards](https://www.sidechannel.blog/en/mifare-classic-2/)
