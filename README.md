@@ -44,6 +44,8 @@ hf search
 | UID | Magic Gen 1 (backdoor command 20:23 auth) |
 | CUID | Magic Gen 2 (Mifare Classic Tool compatible direct write) |
 | GDM / USCUID | Magic Gen 4 |
+
+Old card (SL)
 ```
 hf mf info
 hf mf autopwn
@@ -57,7 +59,7 @@ hf mf nested --4k --blk <Blk> -a -k <key A>
 ```
 
 ### MIM256 / LEGIC Prime tag
-Blue bracelet
+Old bracelet (Blue)
 ```
 hf legic info
 ```
