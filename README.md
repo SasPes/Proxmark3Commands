@@ -1,5 +1,5 @@
 # Proxmark3 Commands
-<img src="img/RFID-Card-3-e1587108734574.png" width="400"> <img src="img/pm3easy.png" width="400">   
+<img src="img/RFID-Card-3-e1587108734574.png" width="350"> <img src="img/pm3easy.png" width="400">   
 ## Low Frequency (LF)
 125 KHz or 134.2 KHz   
 Protocol: ISO 11784 / 11785   
@@ -37,7 +37,7 @@ lf indala clone -r <raw>
 
 ---
    
-![HF](img/RFID-Card-4-e1587108920704.png)   
+<img src="img/RFID-Card-4-e1587108920704.png" width="350">   
 ## High  Frequency (HF)
 13.56 MHz   
 Protocol: ISO 14443A / 14443B / 15693   
