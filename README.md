@@ -74,6 +74,8 @@ hf mf nested --4k --blk <Blk> -a -k <key A>
 Old bracelet (Blue)
 ```
 hf legic info
+hf legic list
+hf legic dump
 ```
 
 ## Links
