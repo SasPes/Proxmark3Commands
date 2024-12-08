@@ -58,19 +58,22 @@ hf search
 | GDM / USCUID | Magic Gen 4 |
 
 Old card (SL)
+Old debit card (M)
 ```
 hf mf info
 hf mf autopwn
 
+hf mf csetuid -u <UID>
 hf mf wipe
 hf mf restore
+hf mf restore --1k --uid <UID>
 hf mf dump --ns
 
 hf mf chk
 hf mf nested --4k --blk <Blk> -a -k <key A>
 ```
 
-Old debit card
+Old debit card (S)
 ```
 emv list
 emv test
