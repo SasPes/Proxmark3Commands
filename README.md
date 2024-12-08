@@ -70,6 +70,13 @@ hf mf chk
 hf mf nested --4k --blk <Blk> -a -k <key A>
 ```
 
+Old debit card
+```
+emv list
+emv test
+emv gpo
+```
+
 ### MIM256 / LEGIC Prime tag
 Old bracelet (Blue)
 ```
@@ -80,7 +87,8 @@ hf legic dump
 
 ## Links
 1. [Proxmark Wiki](https://github.com/Proxmark/proxmark3/wiki)
-2. [MIFARE Classic: exposing the static encrypted nonce variant](https://eprint.iacr.org/2024/1275.pdf)
-3. [Mifare HowTo](https://github.com/Proxmark/proxmark3/wiki/Mifare-HowTo)
-4. [Study of vulnerabilities in MIFARE Classic cards](https://www.sidechannel.blog/en/mifare-classic-2/)
-5. [RFID / NFC Card](https://nexqo.com/portfolio-items/rfid-nfc-card/)
+2. [Proxmark 3 CheatSheet](https://tagbase.ksec.co.uk/resources/proxmark3-cheatsheet/)
+3. [MIFARE Classic: exposing the static encrypted nonce variant](https://eprint.iacr.org/2024/1275.pdf)
+4. [Mifare HowTo](https://github.com/Proxmark/proxmark3/wiki/Mifare-HowTo)
+5. [Study of vulnerabilities in MIFARE Classic cards](https://www.sidechannel.blog/en/mifare-classic-2/)
+6. [RFID / NFC Card](https://nexqo.com/portfolio-items/rfid-nfc-card/)
