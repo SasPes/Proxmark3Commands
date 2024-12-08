@@ -63,10 +63,9 @@ Old debit card (M)
 hf mf info
 hf mf autopwn
 
-hf mf csetuid -u <UID>
 hf mf wipe
+hf mf csetuid -u <UID>
 hf mf restore
-hf mf restore --1k --uid <UID>
 hf mf dump --ns
 
 hf mf chk
