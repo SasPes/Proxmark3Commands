@@ -94,3 +94,4 @@ hf legic dump
 4. [Mifare HowTo](https://github.com/Proxmark/proxmark3/wiki/Mifare-HowTo)
 5. [Study of vulnerabilities in MIFARE Classic cards](https://www.sidechannel.blog/en/mifare-classic-2/)
 6. [RFID / NFC Card](https://nexqo.com/portfolio-items/rfid-nfc-card/)
+7. [Awesome RFID Talks](https://github.com/doegox/awesome-rfid-talks)
