@@ -18,7 +18,7 @@ lf t55xx wipe
 ```
 
 ### EM 410x / T55xx
-Old cards (HT)
+Old cards (H,T)   
 Old tags (DW) 
 ```
 lf em 410x reader
@@ -58,7 +58,7 @@ hf search
 | GDM / USCUID | Magic Gen 4 |
 
 Old card (SL)
-Old debit card (M)
+Old debit card (M,S)
 ```
 hf mf info
 hf mf autopwn
@@ -71,8 +71,6 @@ hf mf dump --ns
 hf mf chk
 hf mf nested --4k --blk <Blk> -a -k <key A>
 ```
-
-Old debit card (S)
 ```
 emv list
 emv test
