@@ -50,14 +50,14 @@ Short reading range, around 2-10 cm
 hf search
 ```
 
-### ISO 14443-A / Mifare Classic 1K
+### ISO 14443-A / Mifare Classic
 | Type | Gen |
 |---|---|
 | UID | Magic Gen 1 (backdoor command 20:23 auth) |
 | CUID | Magic Gen 2 (Mifare Classic Tool compatible direct write) |
 | GDM / USCUID | Magic Gen 4 |
 
-Old card (SL)
+Old card (SL)   
 Old debit card (M,S)
 ```
 hf mf info
@@ -77,6 +77,15 @@ emv test
 emv gpo
 ```
 
+### MIFARE Ultralight/C/NTAG
+imagotag G1 retail 2.6 red NFC
+```
+hf mfu info
+hf mfu keygen -r
+hf mfu pwdgen -r
+hf mfu dump
+```
+
 ### MIM256 / LEGIC Prime tag
 Old bracelet (Blue)
 ```
@@ -93,3 +102,4 @@ hf legic dump
 5. [Study of vulnerabilities in MIFARE Classic cards](https://www.sidechannel.blog/en/mifare-classic-2/)
 6. [RFID / NFC Card](https://nexqo.com/portfolio-items/rfid-nfc-card/)
 7. [Awesome RFID Talks](https://github.com/doegox/awesome-rfid-talks)
+8. [Backing Up Your Amiibo With A Proxmark3](https://farewell-ladmin.com/backing-up-your-amiibo-with-a-proxmark3/)
