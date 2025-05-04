@@ -63,8 +63,8 @@ Old debit card (M,S)
 hf mf info
 hf mf autopwn
 
-hf mf wipe
 hf mf csetuid -u <UID>
+hf mf wipe
 hf mf restore
 hf mf dump --ns
 
@@ -86,6 +86,29 @@ hf mfu pwdgen -r
 hf mfu dump
 ```
 
+### MIFARE DESFire EV1
+Old card (T) - LF & HF
+```
+hf mfdes info
+hf mfdes default
+
+hf mfdes freemem
+
+hf mfdes lsapp
+hf mfdes getaids
+
+hf mfdes createapp --aid 123456 --fid 2345 --dfname aid123456
+
+hf mfdes createfile --aid 123456 --fid 01 --isofid 0001 --size 000010
+hf mfdes getfileids --aid 123456
+
+hf mfdes write --aid 123456 --fid 01 -d 53617350657320546573742045563121
+hf mfdes read --aid 123456
+
+hf mfdes deletefile --aid 123456 --fid 01
+hf mfdes deleteapp --aid 123456
+```
+
 ### MIM256 / LEGIC Prime tag
 Old bracelet (Blue)
 ```
@@ -103,3 +126,4 @@ hf legic dump
 6. [RFID / NFC Card](https://nexqo.com/portfolio-items/rfid-nfc-card/)
 7. [Awesome RFID Talks](https://github.com/doegox/awesome-rfid-talks)
 8. [Backing Up Your Amiibo With A Proxmark3](https://farewell-ladmin.com/backing-up-your-amiibo-with-a-proxmark3/)
+9. [MIFARE DESFire](https://github.com/RfidResearchGroup/proxmark3/blob/master/doc/desfire.md)
