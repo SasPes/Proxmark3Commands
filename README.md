@@ -118,12 +118,13 @@ hf legic dump
 ```
 
 ## Links
-1. [Proxmark Wiki](https://github.com/Proxmark/proxmark3/wiki)
-2. [Proxmark 3 CheatSheet](https://tagbase.ksec.co.uk/resources/proxmark3-cheatsheet/)
-3. [MIFARE Classic: exposing the static encrypted nonce variant](https://eprint.iacr.org/2024/1275.pdf)
-4. [Mifare HowTo](https://github.com/Proxmark/proxmark3/wiki/Mifare-HowTo)
-5. [Study of vulnerabilities in MIFARE Classic cards](https://www.sidechannel.blog/en/mifare-classic-2/)
-6. [RFID / NFC Card](https://nexqo.com/portfolio-items/rfid-nfc-card/)
-7. [Awesome RFID Talks](https://github.com/doegox/awesome-rfid-talks)
-8. [Backing Up Your Amiibo With A Proxmark3](https://farewell-ladmin.com/backing-up-your-amiibo-with-a-proxmark3/)
-9. [MIFARE DESFire](https://github.com/RfidResearchGroup/proxmark3/blob/master/doc/desfire.md)
+1. [Windows binaries for the Proxmark3](https://www.proxmarkbuilds.org/)
+2. [Proxmark Wiki](https://github.com/Proxmark/proxmark3/wiki)
+3. [Proxmark 3 CheatSheet](https://tagbase.ksec.co.uk/resources/proxmark3-cheatsheet/)
+4. [MIFARE Classic: exposing the static encrypted nonce variant](https://eprint.iacr.org/2024/1275.pdf)
+5. [Mifare HowTo](https://github.com/Proxmark/proxmark3/wiki/Mifare-HowTo)
+6. [Study of vulnerabilities in MIFARE Classic cards](https://www.sidechannel.blog/en/mifare-classic-2/)
+7. [RFID / NFC Card](https://nexqo.com/portfolio-items/rfid-nfc-card/)
+8. [Awesome RFID Talks](https://github.com/doegox/awesome-rfid-talks)
+9. [Backing Up Your Amiibo With A Proxmark3](https://farewell-ladmin.com/backing-up-your-amiibo-with-a-proxmark3/)
+10. [MIFARE DESFire](https://github.com/RfidResearchGroup/proxmark3/blob/master/doc/desfire.md)
