@@ -95,18 +95,18 @@ hf mfdes default
 hf mfdes freemem
 
 hf mfdes lsapp
-hf mfdes getaids
+hf mfdes lsfiles --aid <AID> --no-auth
 
-hf mfdes createapp --aid 123456 --fid 2345 --dfname aid123456
+hf mfdes createapp --aid <AID> --fid 2345 --dfname aid<AID>
 
-hf mfdes createfile --aid 123456 --fid 01 --isofid 0001 --size 000010
-hf mfdes getfileids --aid 123456
+hf mfdes createfile --aid <AID> --fid 01 --isofid 0001 --size 000010
+hf mfdes getfileids --aid <AID>
 
-hf mfdes write --aid 123456 --fid 01 -d 53617350657320546573742045563121
-hf mfdes read --aid 123456
+hf mfdes write --aid <AID> --fid 01 -d 53617350657320546573742045563121
+hf mfdes read --aid <AID>
 
-hf mfdes deletefile --aid 123456 --fid 01
-hf mfdes deleteapp --aid 123456
+hf mfdes deletefile --aid <AID> --fid 01
+hf mfdes deleteapp --aid <AID>
 ```
 
 ### MIM256 / LEGIC Prime tag
