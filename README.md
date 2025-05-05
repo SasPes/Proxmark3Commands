@@ -64,6 +64,7 @@ hf mf info
 hf mf chk
 hf mf autopwn
 hf mf cview
+hf mf view -f hf-mf-12345678-dump-001.bin
 
 hf mf csetuid -u <UID>
 hf mf wipe
