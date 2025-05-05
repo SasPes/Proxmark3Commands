@@ -116,6 +116,13 @@ hf em info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD>
 hf emrtd info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD> -i
 ```
 
+### HID SEOS
+Old card (D)
+```
+hf seos info
+hf seos managekeys -p
+```
+
 ### MIM256 / LEGIC Prime tag
 Old bracelet (Blue)
 ```
