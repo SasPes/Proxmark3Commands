@@ -109,6 +109,13 @@ hf mfdes deletefile --aid <AID> --fid 01
 hf mfdes deleteapp --aid <AID>
 ```
 
+### eMRTD
+Passport
+```
+hf em info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD>
+hf emrtd info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD>
+```
+
 ### MIM256 / LEGIC Prime tag
 Old bracelet (Blue)
 ```
