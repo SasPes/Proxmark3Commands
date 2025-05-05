@@ -61,14 +61,18 @@ Old card (SL)
 Old debit card (M,S)
 ```
 hf mf info
+hf mf chk
 hf mf autopwn
+hf mf cview
 
 hf mf csetuid -u <UID>
 hf mf wipe
 hf mf restore
 hf mf dump --ns
 
-hf mf chk
+hf mf csetblk -b 063 -d 53617350657320546573742045563121
+hf mf cwipe
+
 hf mf nested --4k --blk <Blk> -a -k <key A>
 ```
 ```
