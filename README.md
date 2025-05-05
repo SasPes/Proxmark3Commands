@@ -113,7 +113,7 @@ hf mfdes deleteapp --aid <AID>
 Passport
 ```
 hf em info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD>
-hf emrtd info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD>
+hf emrtd info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD> -i
 ```
 
 ### MIM256 / LEGIC Prime tag
@@ -135,3 +135,4 @@ hf legic dump
 8. [Awesome RFID Talks](https://github.com/doegox/awesome-rfid-talks)
 9. [Backing Up Your Amiibo With A Proxmark3](https://farewell-ladmin.com/backing-up-your-amiibo-with-a-proxmark3/)
 10. [MIFARE DESFire](https://github.com/RfidResearchGroup/proxmark3/blob/master/doc/desfire.md)
+11. [Electronic Machine Readable Travel Document - eMRTD](https://developers-old.innovatrics.com/digital-onboarding/docs/functionalities/document/nfc-reading/)
