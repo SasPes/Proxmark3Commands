@@ -76,11 +76,6 @@ hf mf cwipe
 
 hf mf nested --4k --blk <Blk> -a -k <key A>
 ```
-```
-emv list
-emv test
-emv gpo
-```
 
 ### MIFARE Ultralight/C/NTAG
 imagotag G1 retail 2.6 red NFC
@@ -90,9 +85,14 @@ hf mfu keygen -r
 hf mfu pwdgen -r
 hf mfu dump
 ```
+```
+emv list
+emv test
+emv gpo
+```
 
 ### MIFARE DESFire EV1
-Old card (T) - LF & HF
+Old card (T)
 ```
 hf mfdes info
 hf mfdes default
@@ -116,13 +116,14 @@ hf mfdes deleteapp --aid <AID>
 
 ### eMRTD
 Passport
+Old card (MC, ID)
 ```
 hf em info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD>
 hf emrtd info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD> -i
 ```
 
 ### HID SEOS
-Old card (D)
+Old card (D,ID)
 ```
 hf seos info
 hf seos managekeys -p
