@@ -112,6 +112,8 @@ hf mfdes read --aid <AID>
 
 hf mfdes deletefile --aid <AID> --fid 01
 hf mfdes deleteapp --aid <AID>
+
+hf mfdes formatpicc
 ```
 
 ### eMRTD
