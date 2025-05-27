@@ -23,6 +23,8 @@ Old tags (DW)
 ```
 lf em 410x reader
 lf em 410x clone --id <card_id>
+
+lf t5 detect
 ```
 
 ### EM4x05 / EM4x69 / Indala ID
@@ -59,6 +61,7 @@ hf search
 
 Old card (SL)   
 Old debit card (M,S)
+Old gym card (247, P&T)
 ```
 hf mf info
 hf mf chk
