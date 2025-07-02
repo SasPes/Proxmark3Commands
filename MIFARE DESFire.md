@@ -1,16 +1,49 @@
 # MIFARE DESFire
 
-## Chaneg master key on a new card
+String to Hex → https://dencode.com/en/string/hex   
+Hex to String → https://dencode.com/en/string
+
+## Change master key on a new card
 ```
+# Set new card master key (AES)
 hf mfdes changekey -t des --newalgo aes --newkey 11223344556677889900112233445566
+
+# List all apps with the new key
+hf mfdes lsapp -t aes -k 11223344556677889900112233445566
+
+# Change card master key
 hf mfdes changekey -t aes -k 11223344556677889900112233445566 --newkey 54686973206973206120746573742121
 
-hf mfdes formatpicc -t aes -k 54686973206973206120746573742121
+# List all apps with the new changed key
+hf mfdes lsapp -t aes -k 11223344556677889900112233445566
 
+# Set default profile to AES
 hf mfdes default -n 0 -t aes -k 54686973206973206120746573742121
+
+# List all apps with the new default AES config
+hf mfdes lsapp
+
+# Check free memory
+hf mfdes freemem
+
+# Format the card
 hf mfdes formatpicc
 ```
 
+## Revert master key to default
+```sh
+# List all apps
+hf mfdes lsapp
+hf mfdes lsapp --no-auth
+
+# Change card master key from AES to DES (default)
+hf mfdes changekey -t aes -k 54686973206973206120746573742121 --newalgo des --newkey 0000000000000000
+
+# Set default profile to DES (default)
+hf mfdes default -n 0 -t des -k 0000000000000000
+```
+
+## Other ...
 ```
 hf mfdes createapp --aid 123456 --fid 2345 --dfname aid123456 --dstalgo aes
 
