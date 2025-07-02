@@ -4,7 +4,7 @@ String to Hex → https://dencode.com/en/string/hex
 Hex to String → https://dencode.com/en/string
 
 ## MIFARE DESFire EV3 4K
-<img src="img/MIFARE-DESFire-EV3.png" width="350">
+<img src="img/MIFARE-DESFire-EV3.png" width="300">
 
 ### Change master key on a new card
 ```sh
@@ -46,21 +46,51 @@ hf mfdes changekey -t aes -k 54686973206973206120746573742121 --newalgo des --ne
 hf mfdes default -n 0 -t des -k 0000000000000000
 ```
 
-### Other ...
-```
-hf mfdes createapp --aid 123456 --fid 2345 --dfname aid123456 --dstalgo aes
+### Create app with recovery codes
+```sh
+# Create app
+hf mfdes createapp --aid 000001 --fid 0001 --dfname github
 
-[usb] pm3 --> hf mfdes changekey --aid 123456 -t aes --newkey 54686973206973206120746573742121 --oldkey 11223344556>
-[=] Changing key for AID 123456
-[=] auth key 0: aes [16] 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[=] changing key number  0x00 (0)
-[=] old key: aes [16] 11 22 33 44 55 66 77 88 99 00 11 22 33 44 55 66
-[=] new key: aes [16] 54 68 69 73 20 69 73 20 61 20 74 65 73 74 21 21
-[=] new key version: 0x00
-[+] Change key ( ok )
+# List all apps
+hf mfdes lsapp
 
-hf mfdes changekey -t des --oldkey 54686973206973206120746573742121  --newkey 0000000000000000
-hf mfdes changekey --aid 123456 -t aes --key 54686973206973206120746573742121 --newkey 00000000000000000000000000000000
+# Create file (ex. 01)
+hf mfdes createfile --aid 000001 --fid 01 --isofid 0001 --size 000100
 
-hf mfdes auth --aid 123456 -n 0 -t AES -k 00000000000000000000000000000000
+# List all files
+hf mfdes getfileids --aid 000001
+
+# Write data to file 01 (ex. recovery codes "c9sye-vpw90")
+hf mfdes write --aid 000001 --fid 01 -d 63397379652d7670773930
+
+# Read all files
+hf mfdes read --aid 000001
+
+# Write data to file 01 (ex. recovery codes "c9sye-vpw90 & so7aw-4f82w & z9a73-3deh2 & ...")
+hf mfdes write --aid 000001 --fid 01 -d 736f3761772d3466383277 -o 000010
+hf mfdes write --aid 000001 --fid 01 -d 7a396137332d3364656832 -o 000020
+
+# Read all github recovery codes
+hf mfdes read --aid 000001 --fid 01
+[=] ------------------------------- File 01 data -------------------------------
+[+] Read 256 bytes from file 0x01 offset 0
+[=]  Offset  | Data                                            | Ascii
+[=] ----------------------------------------------------------------------------
+[=]   0/0x00 | 63 39 73 79 65 2D 76 70 77 39 30 00 00 00 00 00 | c9sye-vpw90.....
+[=]  16/0x10 | 73 6F 37 61 77 2D 34 66 38 32 77 00 00 00 00 00 | so7aw-4f82w.....
+[=]  32/0x20 | 7A 39 61 37 33 2D 33 64 65 68 32 00 00 00 00 00 | z9a73-3deh2.....
+[=]  48/0x30 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=]  64/0x40 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=]  80/0x50 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=]  96/0x60 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=] 112/0x70 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=] 128/0x80 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=] 144/0x90 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=] 160/0xA0 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=] 176/0xB0 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=] 192/0xC0 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=] 208/0xD0 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=] 224/0xE0 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+[=] 240/0xF0 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................
+
 ```
