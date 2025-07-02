@@ -6,7 +6,20 @@ Hex to String → https://dencode.com/en/string
 ## MIFARE DESFire EV3 4K
 <img src="img/MIFARE-DESFire-EV3.png" width="300">
 
-### Create new app recovery codes
+### How to store recovery codes on MIFARE DESFire EV3
+
+#### TODO
+```sh
+[+] Application level rights:
+[+] -- AMK authentication is necessary to change any key (default)
+[+] [1...] AMK Configuration changeable   : YES
+[+] [.1..] AMK required for create/delete : NO --------------> YES
+[+] [..1.] Directory list access with AMK : NO
+[+] [...1] AMK is changeable              : YES
+
+# this is example, need research ...
+hf mfdes createapp --aid 000001 --fid 0001 --ks1 0B --ks2 AE -t aes -k 54686973206973206120746573742121
+```
 
 ```sh
 # GitHub - example recovery codes
