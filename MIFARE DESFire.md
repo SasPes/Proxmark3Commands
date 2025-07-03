@@ -8,19 +8,6 @@ Hex to String → https://dencode.com/en/string
 
 ### How to store recovery codes on MIFARE DESFire EV3
 
-#### TODO
-```sh
-[+] Application level rights:
-[+] -- AMK authentication is necessary to change any key (default)
-[+] [1...] AMK Configuration changeable   : YES
-[+] [.1..] AMK required for create/delete : NO --------------> YES
-[+] [..1.] Directory list access with AMK : NO
-[+] [...1] AMK is changeable              : YES
-
-# this is example, need research ...
-hf mfdes createapp --aid 000001 --fid 0001 --ks1 0B --ks2 AE -t aes -k 54686973206973206120746573742121
-```
-
 ```sh
 # GitHub - example recovery codes
 c9sye-vpw90
@@ -34,13 +21,13 @@ hf mfdes changekey -t des --newalgo aes --newkey 5468697320697320612074657374212
 hf mfdes default -n 0 -t aes -k 54686973206973206120746573742121
 
 # Create app
-hf mfdes createapp --aid 000001 --fid 0001 --dfname github --dstalgo aes
+hf mfdes createapp --aid 000001 --fid 0001 --dfname github --dstalgo aes --ks1 0B --ks2 AE
 
 # Set app key
 hf mfdes changekey --aid 000001 -t aes --key 00000000000000000000000000000000 --newkey 54686973206973206120746573742121
 
 # Create file (ex. 01)
-hf mfdes createfile --aid 000001 --fid 01 --isofid 0001 --size 000100
+hf mfdes createfile --aid 000001 --fid 01 --isofid 0001 --size 000100 --rrights key0 --wrights key0 --rwrights key0 --chrights key0
 
 # Write data to file 01 (ex. recovery codes: c9sye-vpw90, so7aw-4f82w, z9a73-3deh2")
 hf mfdes write --aid 000001 --fid 01 -d 63397379652d7670773930 -o 000000
