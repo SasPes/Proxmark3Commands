@@ -40,6 +40,22 @@ document.querySelectorAll('.tab-button').forEach(button => {
     });
 });
 
+// Sub-tab switching for MFDes File Access
+document.addEventListener("DOMContentLoaded", function () {
+    const subTabButtons = document.querySelectorAll('.sub-tab-button');
+    const subTabContents = document.querySelectorAll('.sub-tab-content');
+
+    subTabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const subTabId = button.getAttribute('data-subtab');
+            subTabButtons.forEach(btn => btn.classList.remove('active'));
+            subTabContents.forEach(tc => tc.classList.remove('active'));
+            button.classList.add('active');
+            document.getElementById(subTabId).classList.add('active');
+        });
+    });
+});
+
 async function startPm3() {
     const output = document.getElementById('output');  // same output area for all commands
     const startBtn = document.getElementById('startPm3Btn');
