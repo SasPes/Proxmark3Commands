@@ -148,6 +148,7 @@ async function loadAppNames() {
     const select = document.getElementById('appname');
     const output = document.getElementById('output');
     const loadAppsBtn = document.getElementById('loadAppsBtn');
+    const setKeyAidSelect = document.getElementById('setAppKeyAid');
 
     loadAppsBtn.disabled = true;
     loadAppsBtn.textContent = 'Loading apps...';
@@ -170,16 +171,21 @@ async function loadAppNames() {
         while ((match = regex.exec(text)) !== null) {
             const aid = match[1].padStart(6, '0');
             const name = match[2].trim();
-            appOptions.push({ aid, name });
+            appOptions.push({aid, name});
         }
 
         if (appOptions.length === 0) {
             select.innerHTML = '<option value="">No apps found</option>';
             select.disabled = true;
+            setKeyAidSelect.innerHTML = '<option value="">No apps found</option>';
+            setKeyAidSelect.disabled = true;
         } else {
             select.innerHTML = `<option value="">-- Select App --</option>` +
                 appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
             select.disabled = false;
+            setKeyAidSelect.innerHTML = `<option value="">-- Select App --</option>` +
+                appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
+            setKeyAidSelect.disabled = false;
         }
 
         // Clear file IDs dropdown
@@ -329,3 +335,58 @@ document.getElementById('hexInput').addEventListener('keydown', function (e) {
         hexToStr();
     }
 });
+
+async function runCreateApp() {
+    const output = document.getElementById('output');
+    output.innerHTML = `<pre>Creating app...</pre>`;
+
+    const aid = document.getElementById('create-aid').value.trim();
+    const fid = document.getElementById('create-fid').value.trim();
+    const dfname = document.getElementById('create-dfname').value.trim();
+    const dstalgo = document.getElementById('create-dstalgo').value;
+    const ks1 = '0B';  // Hardcoded as requested
+    const ks2 = 'AE';
+
+    if (!aid || !fid || !dfname) {
+        output.innerHTML = `<pre>Please fill in AID, FID, and DF Name.</pre>`;
+        return;
+    }
+
+    let endpoint = `/hf/mfdes/createapp?aid=${encodeURIComponent(aid)}&fid=${encodeURIComponent(fid)}&dfname=${encodeURIComponent(dfname)}&dstalgo=${encodeURIComponent(dstalgo)}&ks1=${ks1}&ks2=${ks2}`;
+    if (getNoAuth()) endpoint += `&no_auth=true`;
+
+    try {
+        const res = await fetch(endpoint);
+        const text = await res.text();
+
+        if (!res.ok) {
+            output.innerHTML = `<pre>Error ${res.status}: ${escapeHTML(text)}</pre>`;
+        } else {
+            output.innerHTML = `<pre>${highlightOutput(text)}</pre>`;
+        }
+    } catch (err) {
+        output.innerHTML = `<pre>Request failed: ${escapeHTML(err.message)}</pre>`;
+    }
+}
+
+async function runChangeAppKey() {
+    const aid = document.getElementById('setAppKeyAid').value;
+    const newkey = document.getElementById('newAppKey').value;
+    const output = document.getElementById('output');
+
+    if (!aid || !newkey) {
+        output.innerHTML = `<pre>Please select an App and enter a new key.</pre>`;
+        return;
+    }
+
+    let endpoint = `/hf/mfdes/changekey?aid=${encodeURIComponent(aid)}&newkey=${encodeURIComponent(newkey)}`;
+    output.innerHTML = `<pre>Running ${endpoint} ... please wait.</pre>`;
+
+    try {
+        const res = await fetch(endpoint);
+        const text = await res.text();
+        output.innerHTML = `<pre>${highlightOutput(text)}</pre>`;
+    } catch (err) {
+        output.innerHTML = `<pre>Error: ${escapeHTML(err.message)}</pre>`;
+    }
+}

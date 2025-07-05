@@ -106,3 +106,18 @@ def mfdes_read(aid: str, fid: str, no_auth: bool = Query(False)):
     if no_auth:
         cmd += NO_AUTH
     return send_command(cmd)
+
+
+@app.get("/hf/mfdes/createapp", response_class=PlainTextResponse)
+def mfdes_createapp(aid: str, fid: str, dfname: str, dstalgo: str):
+    # ks1 and ks2 fixed as per your example
+    ks1 = "0B"
+    ks2 = "AE"
+    cmd = f"hf mfdes createapp --aid {aid} --fid {fid} --dfname {dfname} --dstalgo {dstalgo} --ks1 {ks1} --ks2 {ks2}"
+    return send_command(cmd)
+
+@app.get("/hf/mfdes/changekey", response_class=PlainTextResponse)
+def change_app_key(aid: str, newkey: str, key_type: str = "AES"):
+    key = "00000000000000000000000000000000"  # Constant current key
+    cmd = f"hf mfdes changekey --aid {aid} -t {key_type} --key {key} --newkey {newkey}"
+    return send_command(cmd)
