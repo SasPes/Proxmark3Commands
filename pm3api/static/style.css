@@ -3,6 +3,10 @@ body {
     margin: 20px;
 }
 
+h1 {
+  color: #1d3fa7;
+}
+
 .output {
     border: 1px solid #1d3fa7;
     background: #f9f9f9;
