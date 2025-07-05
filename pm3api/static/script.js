@@ -77,7 +77,7 @@ async function runCmd(endpoint) {
     }
 }
 
-async function runDefault(event) {
+async function runProfile(event) {
     event.preventDefault();
     const out = document.getElementById('output');
     out.innerHTML = `<pre>Running hf mfdes default...</pre>`;
@@ -86,13 +86,18 @@ async function runDefault(event) {
     const key = document.getElementById('key').value;
 
     try {
-        const res = await fetch(`/hf/mfdes/set-default?type=${encodeURIComponent(type)}&key=${encodeURIComponent(key)}`);
+        const res = await fetch(`/hf/mfdes/set-profile?type=${encodeURIComponent(type)}&key=${encodeURIComponent(key)}`);
         const text = await res.text();
         out.innerHTML = `<pre>${highlightOutput(text)}</pre>`;
     } catch (err) {
         out.innerHTML = `<pre>Error: ${err.message}</pre>`;
     }
 }
+
+document.getElementById("setDefaultBtn").addEventListener("click", () => {
+    sendCommand('hf mfdes default -n 0 -t des -k 0000000000000000');
+});
+
 
 // Called after loading apps to fill appname dropdown
 async function loadAppNames() {

@@ -71,12 +71,12 @@ def hf_mfdes_lsapp_no_auth():
 
 
 @app.get("/hf/mfdes/get-profile", response_class=PlainTextResponse)
-def hf_mfdes_get_default():
+def hf_mfdes_get_profile():
     return send_command("hf mfdes default")
 
 
 @app.get("/hf/mfdes/set-profile", response_class=PlainTextResponse)
-def hf_mfdes_default(
+def hf_mfdes_set_profile(
         key: str = Query(..., description="Hex key"),
         type: str = Query("AES", regex="^(DES|2TDEA|3TDEA|AES)$", description="Crypto type")
 ):
