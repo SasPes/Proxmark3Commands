@@ -13,6 +13,8 @@
     <button class="tab-button" data-tab="tab1">MFDes Default</button>
     <button class="tab-button" data-tab="tab2">HF & MFDes Commands</button>
     <button class="tab-button" data-tab="tab3">MFDes File Access</button>
+    <button class="tab-button" data-tab="tab4">String &lt;&gt; Hex</button>
+
 </div>
 
 <div id="tab0" class="tab-content active">
@@ -84,6 +86,22 @@
         </div>
     </fieldset>
 </div>
+
+<div id="tab4" class="tab-content">
+    <fieldset class="mfdes-fieldset">
+        <legend>String &lt;-&gt; Hex Converter</legend>
+
+        <label for="strInput">String</label>
+        <input type="text" id="strInput" size="40" placeholder="Enter text here"/>
+        <button onclick="strToHex()">to Hex</button>
+        <br/><br/>
+
+        <label for="hexInput">Hex</label>
+        <input type="text" id="hexInput" size="40" placeholder="Enter hex here"/>
+        <button onclick="hexToStr()">to String</button>
+    </fieldset>
+</div>
+
 
 <div id="output" class="output">Click a button to run a command and see output here...</div>
 

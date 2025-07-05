@@ -222,3 +222,45 @@ async function runRead() {
         readBtn.textContent = 'Read file';
     }
 }
+
+function strToHex() {
+  const str = document.getElementById('strInput').value;
+  let hexWithSpaces = '';
+  for (let i = 0; i < str.length; i++) {
+    hexWithSpaces += str.charCodeAt(i).toString(16).padStart(2, '0') + ' ';
+  }
+  const hexNoSpaces = hexWithSpaces.replace(/\s+/g, '');
+  document.getElementById('output').innerHTML =
+    `<pre>String: ${str}\nHex: ${hexNoSpaces}</pre>`;
+}
+
+function hexToStr() {
+  const hexInput = document.getElementById('hexInput').value;
+  const hex = hexInput.replace(/\s+/g, '');
+  if (!/^[0-9a-fA-F]*$/.test(hex)) {
+    document.getElementById('output').innerHTML = `<pre>Invalid hex string!</pre>`;
+    return;
+  }
+  let str = '';
+  for (let i = 0; i < hex.length; i += 2) {
+    str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+  }
+  document.getElementById('output').innerHTML =
+    `<pre>String: ${str}\nHex: ${hex}</pre>`;
+}
+
+// Run strToHex() on Enter in the String input
+document.getElementById('strInput').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+    e.preventDefault(); // prevent form submission if inside a form
+    strToHex();
+  }
+});
+
+// Run hexToStr() on Enter in the Hex input
+document.getElementById('hexInput').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    hexToStr();
+  }
+});
