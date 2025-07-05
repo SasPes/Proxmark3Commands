@@ -92,6 +92,15 @@ function highlightOutput(text) {
 
 }
 
+function runFreemem() {
+    let endpoint = 'hf/mfdes/freemem';
+    if (getNoAuth()) {
+        endpoint += '?no_auth=1';
+    }
+    runCmd(endpoint);
+}
+
+
 async function runCmd(endpoint) {
     const output = document.getElementById('output');
     output.innerHTML = `Running ${endpoint}... Please wait.`;

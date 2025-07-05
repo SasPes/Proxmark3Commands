@@ -57,6 +57,13 @@ def hf_search():
     return send_command("hf search")
 
 
+@app.get("/hf/mfdes/freemem", response_class=PlainTextResponse)
+def mfdes_freemem(no_auth: bool = Query(False)):
+    cmd = "hf mfdes freemem"
+    if no_auth:
+        cmd += NO_AUTH
+    return send_command(cmd)
+
 @app.get("/hf/mfdes/info", response_class=PlainTextResponse)
 def hf_mfdes_info():
     return send_command("hf mfdes info")
