@@ -149,6 +149,7 @@ async function loadAppNames() {
     const output = document.getElementById('output');
     const loadAppsBtn = document.getElementById('loadAppsBtn');
     const setKeyAidSelect = document.getElementById('setAppKeyAid');
+    const createFileAidSelect = document.getElementById('createFileAid');
 
     loadAppsBtn.disabled = true;
     loadAppsBtn.textContent = 'Loading apps...';
@@ -179,6 +180,8 @@ async function loadAppNames() {
             select.disabled = true;
             setKeyAidSelect.innerHTML = '<option value="">No apps found</option>';
             setKeyAidSelect.disabled = true;
+            createFileAidSelect.innerHTML = '<option value="">No apps found</option>';
+            createFileAidSelect.disabled = true;
         } else {
             select.innerHTML = `<option value="">-- Select App --</option>` +
                 appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
@@ -186,6 +189,9 @@ async function loadAppNames() {
             setKeyAidSelect.innerHTML = `<option value="">-- Select App --</option>` +
                 appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
             setKeyAidSelect.disabled = false;
+            createFileAidSelect.innerHTML = `<option value="">-- Select App --</option>` +
+                appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
+            createFileAidSelect.disabled = false;
         }
 
         // Clear file IDs dropdown
@@ -380,6 +386,27 @@ async function runChangeAppKey() {
     }
 
     let endpoint = `/hf/mfdes/changekey?aid=${encodeURIComponent(aid)}&newkey=${encodeURIComponent(newkey)}`;
+    output.innerHTML = `<pre>Running ${endpoint} ... please wait.</pre>`;
+
+    try {
+        const res = await fetch(endpoint);
+        const text = await res.text();
+        output.innerHTML = `<pre>${highlightOutput(text)}</pre>`;
+    } catch (err) {
+        output.innerHTML = `<pre>Error: ${escapeHTML(err.message)}</pre>`;
+    }
+}
+
+async function runCreateFile() {
+    const aid = document.getElementById('createFileAid').value;
+    const output = document.getElementById('output');
+
+    if (!aid) {
+        output.innerHTML = `<pre>Please select an App (AID) to create a file.</pre>`;
+        return;
+    }
+
+    let endpoint = `/hf/mfdes/createfile?aid=${encodeURIComponent(aid)}`;
     output.innerHTML = `<pre>Running ${endpoint} ... please wait.</pre>`;
 
     try {

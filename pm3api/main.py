@@ -116,8 +116,18 @@ def mfdes_createapp(aid: str, fid: str, dfname: str, dstalgo: str):
     cmd = f"hf mfdes createapp --aid {aid} --fid {fid} --dfname {dfname} --dstalgo {dstalgo} --ks1 {ks1} --ks2 {ks2}"
     return send_command(cmd)
 
+
 @app.get("/hf/mfdes/changekey", response_class=PlainTextResponse)
 def change_app_key(aid: str, newkey: str, key_type: str = "AES"):
     key = "00000000000000000000000000000000"  # Constant current key
     cmd = f"hf mfdes changekey --aid {aid} -t {key_type} --key {key} --newkey {newkey}"
+    return send_command(cmd)
+
+
+@app.get("/hf/mfdes/createfile", response_class=PlainTextResponse)
+def mfdes_createfile(aid: str):
+    cmd = (
+        f"hf mfdes createfile --aid {aid} --fid 01 --isofid 0001 --size 000100 "
+        f"--rrights key0 --wrights key0 --rwrights key0 --chrights key0"
+    )
     return send_command(cmd)
