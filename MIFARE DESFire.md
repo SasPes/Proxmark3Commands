@@ -1,9 +1,9 @@
 # MIFARE DESFire
 
-
-
 ## MIFARE DESFire EV3 4K
 <img src="img/MIFARE-DESFire-EV3.png" width="300">
+
+MIFARE DESFire EV3 4K has free memory [0x001400] 5120 bytes, even 4K = 4096 bytes :)
 
 ### Useful links
 [Proxmark3 MIFARE DESFire Web Interface](https://github.com/SasPes/proxmark3-hf-mfdes-web)   
