@@ -93,12 +93,16 @@ def hf_mfdes_getappnames(noauth: bool = Query(False)):
 
 
 @app.get("/hf/mfdes/getfileids", response_class=PlainTextResponse)
-def get_file_ids(aid: str):
+def get_file_ids(aid: str, no_auth: bool = Query(False)):
     cmd = f"hf mfdes getfileids --aid {aid}"
+    if no_auth:
+        cmd += NO_AUTH
     return send_command(cmd)
 
 
 @app.get("/hf/mfdes/read", response_class=PlainTextResponse)
-def mfdes_read(aid: str, fid: str):
+def mfdes_read(aid: str, fid: str, no_auth: bool = Query(False)):
     cmd = f"hf mfdes read --aid {aid} --fid {fid}"
+    if no_auth:
+        cmd += NO_AUTH
     return send_command(cmd)

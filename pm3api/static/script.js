@@ -212,10 +212,16 @@ async function loadFileIds() {
 
     fidSelect.disabled = true;
     fidSelect.innerHTML = '<option>Loading file IDs...</option>';
-    output.innerHTML = `<pre>Running hf mfdes getfileids --aid ${aid} ... please wait.</pre>`;
+
+    let endpoint = `/hf/mfdes/getfileids?aid=${encodeURIComponent(aid)}`;
+    if (getNoAuth()) {
+        endpoint += '&no_auth=1';
+    }
+
+    output.innerHTML = `<pre>Running ${endpoint} ... please wait.</pre>`;
 
     try {
-        const res = await fetch(`/hf/mfdes/getfileids?aid=${encodeURIComponent(aid)}`);
+        const res = await fetch(endpoint);
         if (!res.ok) throw new Error(res.statusText);
         const text = await res.text();
 
@@ -259,10 +265,16 @@ async function runRead() {
 
     readBtn.disabled = true;
     readBtn.textContent = 'Reading...';
-    output.innerHTML = `<pre>Running hf mfdes read --aid ${aid} --fid ${fid} ... please wait.</pre>`;
+
+    let endpoint = `/hf/mfdes/read?aid=${encodeURIComponent(aid)}&fid=${encodeURIComponent(fid)}`;
+    if (getNoAuth()) {
+        endpoint += '&no_auth=1';
+    }
+
+    output.innerHTML = `<pre>Running ${endpoint} ... please wait.</pre>`;
 
     try {
-        const res = await fetch(`/hf/mfdes/read?aid=${encodeURIComponent(aid)}&fid=${encodeURIComponent(fid)}`);
+        const res = await fetch(endpoint);
         if (!res.ok) throw new Error(res.statusText);
         const text = await res.text();
 
