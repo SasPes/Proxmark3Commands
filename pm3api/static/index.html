@@ -33,10 +33,11 @@
         <legend>MFDes Profile</legend>
 
         <div class="mfdes-group">
-            <button onclick="runCmd('hf/mfdes/get-profile')">Get profile</button>
-            <button id="setDefaultBtn">Set Default</button>
+            <button onclick="runCmd('hf/mfdes/get-default')">Get profile</button>
 
-            <form id="mfdesForm" onsubmit="runProfile(event)">
+
+
+            <form id="mfdesForm" onsubmit="runDefault(event)">
                 <label for="type">Crypto Type</label>
                 <select id="type" name="type">
                     <option value="DES">DES</option>
