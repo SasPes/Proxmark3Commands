@@ -1,3 +1,17 @@
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', () => {
+        const tabId = button.getAttribute('data-tab');
+
+        // Remove active class from all buttons and contents
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+
+        // Add active to clicked button and associated content
+        button.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+    });
+});
+
 async function startPm3() {
     const output = document.getElementById('output');  // same output area for all commands
     const startBtn = document.getElementById('startPm3Btn');
