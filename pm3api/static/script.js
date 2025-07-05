@@ -1,3 +1,29 @@
+async function startPm3() {
+    const output = document.getElementById('output');  // same output area for all commands
+    const startBtn = document.getElementById('startPm3Btn');
+    const path = document.getElementById('pm3path').value.trim();
+
+    if (!path) {
+        output.innerHTML = '<pre>Please provide a valid path to the Proxmark3 executable.</pre>';
+        return;
+    }
+
+    startBtn.disabled = true;
+    startBtn.textContent = 'Starting...';
+    output.innerHTML = `<pre>Starting Proxmark3 shell at: ${path} ... please wait.</pre>`;
+
+    try {
+        const res = await fetch(`/start-pm3?path=${encodeURIComponent(path)}`);
+        const text = await res.text();
+        output.innerHTML = `<pre>${text}</pre>`;
+    } catch (err) {
+        output.innerHTML = `<pre>Error starting Proxmark3 shell: ${err.message}</pre>`;
+    } finally {
+        startBtn.disabled = false;
+        startBtn.textContent = 'Start Proxmark3';
+    }
+}
+
 function escapeHTML(str) {
     return str.replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -56,53 +82,53 @@ async function runDefault(event) {
 
 // Called after loading apps to fill appname dropdown
 async function loadAppNames() {
-  const select = document.getElementById('appname');
-  const output = document.getElementById('output');
-  const loadAppsBtn = document.getElementById('loadAppsBtn');
+    const select = document.getElementById('appname');
+    const output = document.getElementById('output');
+    const loadAppsBtn = document.getElementById('loadAppsBtn');
 
-  loadAppsBtn.disabled = true;
-  loadAppsBtn.textContent = 'Loading apps...';
-  output.innerHTML = '<pre>Running hf mfdes getappnames... please wait.</pre>';
+    loadAppsBtn.disabled = true;
+    loadAppsBtn.textContent = 'Loading apps...';
+    output.innerHTML = '<pre>Running hf mfdes getappnames... please wait.</pre>';
 
-  try {
-    const res = await fetch('/hf/mfdes/getappnames');
-    if (!res.ok) throw new Error(res.statusText);
-    const text = await res.text();
+    try {
+        const res = await fetch('/hf/mfdes/getappnames');
+        if (!res.ok) throw new Error(res.statusText);
+        const text = await res.text();
 
-    output.innerHTML = `<pre>${highlightOutput(text)}</pre>`;
+        output.innerHTML = `<pre>${highlightOutput(text)}</pre>`;
 
-    // Parse AID and app name
-    const appOptions = [];
-    const regex = /\[=\] AID: (\d+) .* ISO DF name\[\d+\]:\s*(.+)$/gm;
-    let match;
-    while ((match = regex.exec(text)) !== null) {
-      const aid = match[1].padStart(6, '0');
-      const name = match[2].trim();
-      appOptions.push({ aid, name });
+        // Parse AID and app name
+        const appOptions = [];
+        const regex = /\[=\] AID: (\d+) .* ISO DF name\[\d+\]:\s*(.+)$/gm;
+        let match;
+        while ((match = regex.exec(text)) !== null) {
+            const aid = match[1].padStart(6, '0');
+            const name = match[2].trim();
+            appOptions.push({aid, name});
+        }
+
+        if (appOptions.length === 0) {
+            select.innerHTML = '<option value="">No apps found</option>';
+            select.disabled = true;  // disable dropdown if no apps found
+        } else {
+            select.innerHTML = `<option value="">-- Select App --</option>` +
+                appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
+            select.disabled = false; // enable dropdown when apps loaded
+        }
+
+        // Clear file IDs dropdown and disable it
+        const fidSelect = document.getElementById('fileid');
+        fidSelect.innerHTML = '<option value="">-- Select File ID --</option>';
+        fidSelect.disabled = true;
+
+    } catch (err) {
+        output.innerHTML = `<pre>Error loading apps: ${escapeHTML(err.message)}</pre>`;
+        select.innerHTML = '<option value="">Error loading apps</option>';
+        select.disabled = true;  // disable dropdown on error
+    } finally {
+        loadAppsBtn.disabled = false;
+        loadAppsBtn.textContent = 'Get Apps';
     }
-
-    if (appOptions.length === 0) {
-      select.innerHTML = '<option value="">No apps found</option>';
-      select.disabled = true;  // disable dropdown if no apps found
-    } else {
-      select.innerHTML = `<option value="">-- Select App --</option>` +
-        appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
-      select.disabled = false; // enable dropdown when apps loaded
-    }
-
-    // Clear file IDs dropdown and disable it
-    const fidSelect = document.getElementById('fileid');
-    fidSelect.innerHTML = '<option value="">-- Select File ID --</option>';
-    fidSelect.disabled = true;
-
-  } catch (err) {
-    output.innerHTML = `<pre>Error loading apps: ${escapeHTML(err.message)}</pre>`;
-    select.innerHTML = '<option value="">Error loading apps</option>';
-    select.disabled = true;  // disable dropdown on error
-  } finally {
-    loadAppsBtn.disabled = false;
-    loadAppsBtn.textContent = 'Get Apps';
-  }
 }
 
 // Called when user selects an app (AID) — fetch file IDs for that AID

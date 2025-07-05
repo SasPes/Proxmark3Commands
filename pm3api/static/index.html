@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Proxmark3 Web Interface</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<h1>Proxmark3 Command Interface</h1>
+
+<fieldset class="mfdes-fieldset">
+  <legend>Proxmark3</legend>
+
+  <label for="pm3path">Proxmark3 Executable Path</label>
+  <input type="text" id="pm3path" value="../../proxmark3/pm3" size="40" />
+
+  <button id="startPm3Btn" onclick="startPm3()">Start Proxmark3</button>
+</fieldset>
+
+<fieldset class="mfdes-fieldset">
+    <legend>MFDes Default</legend>
+
+    <div class="mfdes-group">
+        <button onclick="runCmd('hf/mfdes/get-default')">Get default</button>
+
+        <form id="mfdesForm" onsubmit="runDefault(event)">
+            <label for="type">Crypto Type</label>
+            <select id="type" name="type">
+                <option value="DES">DES</option>
+                <option value="2TDEA">2TDEA</option>
+                <option value="3TDEA">3TDEA</option>
+                <option value="AES" selected>AES</option>
+            </select>
+
+            <label for="key">Key (hex)</label>
+            <input type="text" id="key" name="key" value="54686973206973206120746573742121" size="40"/>
+            <button type="submit">Set default</button>
+        </form>
+    </div>
+</fieldset>
+
+<fieldset class="mfdes-fieldset">
+  <legend>HF & MFDes Commands</legend>
+
+  <div class="mfdes-group">
+    <button onclick="runCmd('hf/search')">HF Search</button>
+    <button onclick="runCmd('hf/mfdes/info')">MFDes Info</button>
+    <button onclick="runCmd('hf/mfdes/lsapp')">MFDes LSApp</button>
+    <button onclick="runCmd('hf/mfdes/lsapp-no-auth')">MFDes LSApp (No Auth)</button>
+  </div>
+</fieldset>
+
+<fieldset class="mfdes-fieldset">
+    <legend>MFDes File Access</legend>
+
+    <div class="mfdes-group">
+        <button id="loadAppsBtn" onclick="loadAppNames()">Get Apps</button>
+
+        <label for="appname">App Name (AID):</label>
+        <select id="appname" name="appname" onchange="loadFileIds()" disabled>
+            <option value="">-- Select App --</option>
+        </select>
+
+        <label for="fileid">File ID (FID):</label>
+        <select id="fileid" name="fileid" disabled>
+            <option value="">-- Select File ID --</option>
+        </select>
+
+        <button id="readBtn" onclick="runRead()">Read file</button>
+    </div>
+</fieldset>
+
+
+<div id="output" class="output">Click a button to run a command and see output here...</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
