@@ -1,3 +1,31 @@
+let noAuthEnabled = false;
+
+function toggleNoAuth() {
+    noAuthEnabled = !noAuthEnabled;
+    const btn = document.getElementById('noAuthToggle');
+    btn.textContent = `No Auth: ${noAuthEnabled ? 'ON' : 'OFF'}`;
+    btn.classList.toggle('active', noAuthEnabled);
+}
+
+function getNoAuth() {
+    return noAuthEnabled;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById('noAuthToggle');
+    let noAuthEnabled = false;
+
+    btn.addEventListener('click', function () {
+        noAuthEnabled = !noAuthEnabled;
+
+        btn.textContent = `No Auth: ${noAuthEnabled ? 'ON' : 'OFF'}`;
+        btn.classList.toggle('active', noAuthEnabled);
+    });
+
+    // Make it globally accessible if needed
+    window.getNoAuth = () => noAuthEnabled;
+});
+
 document.querySelectorAll('.tab-button').forEach(button => {
     button.addEventListener('click', () => {
         const tabId = button.getAttribute('data-tab');
@@ -107,6 +135,14 @@ async function runSetDefaultProfile() {
     }
 }
 
+function runMfdesLsApp() {
+    let endpoint = 'hf/mfdes/lsapp';
+    if (getNoAuth()) {
+        endpoint += '?no_auth=true';
+    }
+    runCmd(endpoint);
+}
+
 // Called after loading apps to fill appname dropdown
 async function loadAppNames() {
     const select = document.getElementById('appname');
@@ -115,10 +151,13 @@ async function loadAppNames() {
 
     loadAppsBtn.disabled = true;
     loadAppsBtn.textContent = 'Loading apps...';
-    output.innerHTML = '<pre>Running hf mfdes getappnames... please wait.</pre>';
+
+    const endpoint = getNoAuth() ? 'hf/mfdes/getappnames?noauth=1' : 'hf/mfdes/getappnames';
+
+    output.innerHTML = `<pre>Running ${endpoint} ... please wait.</pre>`;
 
     try {
-        const res = await fetch('/hf/mfdes/getappnames');
+        const res = await fetch(`/${endpoint}`);
         if (!res.ok) throw new Error(res.statusText);
         const text = await res.text();
 
@@ -131,19 +170,19 @@ async function loadAppNames() {
         while ((match = regex.exec(text)) !== null) {
             const aid = match[1].padStart(6, '0');
             const name = match[2].trim();
-            appOptions.push({aid, name});
+            appOptions.push({ aid, name });
         }
 
         if (appOptions.length === 0) {
             select.innerHTML = '<option value="">No apps found</option>';
-            select.disabled = true;  // disable dropdown if no apps found
+            select.disabled = true;
         } else {
             select.innerHTML = `<option value="">-- Select App --</option>` +
                 appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
-            select.disabled = false; // enable dropdown when apps loaded
+            select.disabled = false;
         }
 
-        // Clear file IDs dropdown and disable it
+        // Clear file IDs dropdown
         const fidSelect = document.getElementById('fileid');
         fidSelect.innerHTML = '<option value="">-- Select File ID --</option>';
         fidSelect.disabled = true;
@@ -151,12 +190,13 @@ async function loadAppNames() {
     } catch (err) {
         output.innerHTML = `<pre>Error loading apps: ${escapeHTML(err.message)}</pre>`;
         select.innerHTML = '<option value="">Error loading apps</option>';
-        select.disabled = true;  // disable dropdown on error
+        select.disabled = true;
     } finally {
         loadAppsBtn.disabled = false;
         loadAppsBtn.textContent = 'Get Apps';
     }
 }
+
 
 // Called when user selects an app (AID) — fetch file IDs for that AID
 async function loadFileIds() {

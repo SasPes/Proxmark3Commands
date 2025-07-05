@@ -4,6 +4,8 @@ from fastapi import FastAPI, Query
 from fastapi.responses import PlainTextResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 
+NO_AUTH = " --no-auth"
+
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -61,13 +63,11 @@ def hf_mfdes_info():
 
 
 @app.get("/hf/mfdes/lsapp", response_class=PlainTextResponse)
-def hf_mfdes_lsapp():
-    return send_command("hf mfdes lsapp")
-
-
-@app.get("/hf/mfdes/lsapp-no-auth", response_class=PlainTextResponse)
-def hf_mfdes_lsapp_no_auth():
-    return send_command("hf mfdes lsapp --no-auth")
+def hf_mfdes_lsapp(no_auth: bool = Query(False)):
+    cmd = "hf mfdes lsapp"
+    if no_auth:
+        cmd += NO_AUTH
+    return send_command(cmd)
 
 
 @app.get("/hf/mfdes/get-default", response_class=PlainTextResponse)
@@ -85,8 +85,11 @@ def hf_mfdes_default(
 
 
 @app.get("/hf/mfdes/getappnames", response_class=PlainTextResponse)
-def hf_mfdes_getappnames():
-    return send_command("hf mfdes getappnames")
+def hf_mfdes_getappnames(noauth: bool = Query(False)):
+    cmd = "hf mfdes getappnames"
+    if noauth:
+        cmd += NO_AUTH
+    return send_command(cmd)
 
 
 @app.get("/hf/mfdes/getfileids", response_class=PlainTextResponse)

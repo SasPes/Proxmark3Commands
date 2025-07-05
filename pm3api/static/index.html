@@ -8,6 +8,10 @@
 <body>
 <h1>Proxmark3 Command Interface</h1>
 
+<div class="no-auth-toggle-wrapper">
+    <button id="noAuthToggle" class="toggle-btn">No Auth: OFF</button>
+</div>
+
 <div class="tabs">
     <button class="tab-button active" data-tab="tab0">Proxmark3</button>
     <button class="tab-button" data-tab="tab1">MFDes Profile</button>
@@ -62,8 +66,7 @@
         <div class="mfdes-group">
             <button onclick="runCmd('hf/search')">HF Search</button>
             <button onclick="runCmd('hf/mfdes/info')">MFDes Info</button>
-            <button onclick="runCmd('hf/mfdes/lsapp')">MFDes LSApp</button>
-            <button onclick="runCmd('hf/mfdes/lsapp-no-auth')">MFDes LSApp (No Auth)</button>
+            <button onclick="runMfdesLsApp()">MFDes LSApp</button>
         </div>
     </fieldset>
 </div>
