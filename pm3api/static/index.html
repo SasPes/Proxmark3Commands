@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-<h1>Proxmark3 MIFARE DESFire Command Interface</h1>
+<h1>Proxmark3 Command Interface</h1>
 
 <div class="tabs">
     <button class="tab-button active" data-tab="tab0">Proxmark3</button>
-    <button class="tab-button" data-tab="tab1">MFDes Profile</button>
+    <button class="tab-button" data-tab="tab1">MFDes Default</button>
     <button class="tab-button" data-tab="tab2">HF & MFDes Commands</button>
     <button class="tab-button" data-tab="tab3">MFDes File Access</button>
     <button class="tab-button" data-tab="tab4">String &lt;&gt; Hex</button>
@@ -30,12 +30,10 @@
 
 <div id="tab1" class="tab-content">
     <fieldset class="mfdes-fieldset">
-        <legend>MFDes Profile</legend>
+        <legend>MFDes Default</legend>
 
         <div class="mfdes-group">
-            <button onclick="runCmd('hf/mfdes/get-default')">Get profile</button>
-
-
+            <button onclick="runCmd('hf/mfdes/get-default')">Get default</button>
 
             <form id="mfdesForm" onsubmit="runDefault(event)">
                 <label for="type">Crypto Type</label>
@@ -48,7 +46,7 @@
 
                 <label for="key">Key (hex)</label>
                 <input type="text" id="key" name="key" value="54686973206973206120746573742121" size="40"/>
-                <button type="submit">Set profile</button>
+                <button type="submit">Set default</button>
             </form>
         </div>
     </fieldset>
