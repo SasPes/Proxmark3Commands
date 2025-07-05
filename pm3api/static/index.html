@@ -15,9 +15,9 @@
 <div class="tabs">
     <button class="tab-button active" data-tab="tab0">Proxmark3</button>
     <button class="tab-button" data-tab="tab1">MFDes Profile</button>
-    <button class="tab-button" data-tab="tab2">HF & MFDes Commands</button>
+    <button class="tab-button" data-tab="tab2">MFDes Commands</button>
     <button class="tab-button" data-tab="tab3">MFDes File Access</button>
-    <button class="tab-button" data-tab="tab4">String &lt;&gt; Hex</button>
+    <button class="tab-button" data-tab="tab4">Tools</button>
 
 </div>
 
@@ -51,8 +51,8 @@
                     <option value="AES" selected>AES</option>
                 </select>
 
-                <label for="key">Key (hex)</label>
-                <input type="text" id="key" name="key" value="54686973206973206120746573742121" size="40"/>
+                <label for="key">Key</label>
+                <input type="text" id="key" name="key" value="This is a test!!" size="40"/>
                 <button type="submit">Set profile</button>
             </form>
         </div>
@@ -61,7 +61,7 @@
 
 <div id="tab2" class="tab-content">
     <fieldset class="mfdes-fieldset">
-        <legend>HF & MFDes Commands</legend>
+        <legend>MFDes Commands</legend>
 
         <div class="mfdes-group">
             <button onclick="runCmd('hf/search')">HF Search</button>
@@ -127,8 +127,8 @@
                 <option value="">-- Select App --</option>
             </select>
 
-            <label for="newAppKey">New Key (hex)</label>
-            <input type="text" id="newAppKey" size="35" value="54686973206973206120746573742121"/>
+            <label for="newAppKey">New Key</label>
+            <input type="text" id="newAppKey" size="35" value="This is a test!!"/>
 
             <button onclick="runChangeAppKey()">Set App Key</button>
         </div>

@@ -120,7 +120,8 @@ async function runDefault(event) {
     out.innerHTML = `<pre>Running MFDes Profile command (hf mfdes default)...</pre>`;
 
     const type = document.getElementById('type').value;
-    const key = document.getElementById('key').value;
+    const keyStr = document.getElementById('key').value;
+    const key = toHex(keyStr);  // Convert string to hex
 
     try {
         const res = await fetch(`/hf/mfdes/set-default?type=${encodeURIComponent(type)}&key=${encodeURIComponent(key)}`);
@@ -341,6 +342,14 @@ function hexToStr() {
         `<pre>String: ${str}\nHex: ${hex}</pre>`;
 }
 
+function toHex(str) {
+    let hex = '';
+    for (let i = 0; i < str.length; i++) {
+        hex += str.charCodeAt(i).toString(16).padStart(2, '0');
+    }
+    return hex;
+}
+
 // Run strToHex() on Enter in the String input
 document.getElementById('strInput').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
@@ -392,7 +401,8 @@ async function runCreateApp() {
 
 async function runChangeAppKey() {
     const aid = document.getElementById('setAppKeyAid').value;
-    const newkey = document.getElementById('newAppKey').value;
+    const keyStr = document.getElementById('newAppKey').value;
+    const newkey = toHex(keyStr);  // Convert string to hex
     const output = document.getElementById('output');
 
     if (!aid || !newkey) {
