@@ -135,18 +135,33 @@
     </fieldset>
 
     <fieldset class="mfdes-fieldset">
-    <legend>Create File</legend>
+        <legend>Create File</legend>
 
-    <div class="mfdes-group">
-        <label for="createFileAid">App Name (AID)</label>
-        <select id="createFileAid" disabled>
-            <option value="">-- Select App --</option>
-        </select>
+        <div class="mfdes-group">
+            <label for="createFileAid">App Name (AID)</label>
+            <select id="createFileAid" disabled>
+                <option value="">-- Select App --</option>
+            </select>
 
-        <button onclick="runCreateFile()">Create File</button>
-    </div>
-</fieldset>
+            <button onclick="runCreateFile()">Create File</button>
+        </div>
+    </fieldset>
 
+    <fieldset class="mfdes-fieldset">
+        <legend>Write to File</legend>
+
+        <div class="mfdes-group">
+            <label for="writeFileAid">App Name (AID)</label>
+            <select id="writeFileAid" disabled>
+                <option value="">-- Select App --</option>
+            </select>
+
+            <label for="writeTextData">Plaintext to Write</label>
+            <input type="text" id="writeTextData" placeholder="Enter plain text" size="25"/>
+
+            <button onclick="runWriteFile()">Write to File</button>
+        </div>
+    </fieldset>
 </div>
 
 <div id="tab4" class="tab-content">

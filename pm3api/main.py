@@ -64,6 +64,7 @@ def mfdes_freemem(no_auth: bool = Query(False)):
         cmd += NO_AUTH
     return send_command(cmd)
 
+
 @app.get("/hf/mfdes/info", response_class=PlainTextResponse)
 def hf_mfdes_info():
     return send_command("hf mfdes info")
@@ -137,4 +138,10 @@ def mfdes_createfile(aid: str):
         f"hf mfdes createfile --aid {aid} --fid 01 --isofid 0001 --size 000100 "
         f"--rrights key0 --wrights key0 --rwrights key0 --chrights key0"
     )
+    return send_command(cmd)
+
+
+@app.get("/hf/mfdes/write", response_class=PlainTextResponse)
+def mfdes_write(aid: str, fid: str, data: str, offset: str = "000000"):
+    cmd = f"hf mfdes write --aid {aid} --fid {fid} -d {data} -o {offset}"
     return send_command(cmd)

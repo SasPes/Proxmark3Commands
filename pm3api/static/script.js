@@ -159,6 +159,7 @@ async function loadAppNames() {
     const loadAppsBtn = document.getElementById('loadAppsBtn');
     const setKeyAidSelect = document.getElementById('setAppKeyAid');
     const createFileAidSelect = document.getElementById('createFileAid');
+    const writeFileAidSelect = document.getElementById('writeFileAid');
 
     loadAppsBtn.disabled = true;
     loadAppsBtn.textContent = 'Loading apps...';
@@ -191,6 +192,8 @@ async function loadAppNames() {
             setKeyAidSelect.disabled = true;
             createFileAidSelect.innerHTML = '<option value="">No apps found</option>';
             createFileAidSelect.disabled = true;
+            writeFileAidSelect.innerHTML = '<option value="">No apps found</option>';
+            writeFileAidSelect.disabled = true;
         } else {
             select.innerHTML = `<option value="">-- Select App --</option>` +
                 appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
@@ -201,6 +204,9 @@ async function loadAppNames() {
             createFileAidSelect.innerHTML = `<option value="">-- Select App --</option>` +
                 appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
             createFileAidSelect.disabled = false;
+            writeFileAidSelect.innerHTML = `<option value="">-- Select App --</option>` +
+                appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
+            writeFileAidSelect.disabled = false;
         }
 
         // Clear file IDs dropdown
@@ -416,6 +422,38 @@ async function runCreateFile() {
     }
 
     let endpoint = `/hf/mfdes/createfile?aid=${encodeURIComponent(aid)}`;
+    output.innerHTML = `<pre>Running ${endpoint} ... please wait.</pre>`;
+
+    try {
+        const res = await fetch(endpoint);
+        const text = await res.text();
+        output.innerHTML = `<pre>${highlightOutput(text)}</pre>`;
+    } catch (err) {
+        output.innerHTML = `<pre>Error: ${escapeHTML(err.message)}</pre>`;
+    }
+}
+
+async function runWriteFile() {
+    const aid = document.getElementById('writeFileAid').value;
+    const plainText = document.getElementById('writeTextData').value.trim();
+    const output = document.getElementById('output');
+
+    const fid = "01";  // constant
+    const offset = "000000";  // optional, constant for now
+
+    if (!aid || !plainText) {
+        output.innerHTML = `<pre>Please fill in AID and Plaintext to Write.</pre>`;
+        return;
+    }
+
+    // Convert plain text to hex
+    let hexData = '';
+    for (let i = 0; i < plainText.length; i++) {
+        hexData += plainText.charCodeAt(i).toString(16).padStart(2, '0');
+    }
+
+    const endpoint = `/hf/mfdes/write?aid=${encodeURIComponent(aid)}&fid=${fid}&data=${hexData}&offset=${offset}`;
+
     output.innerHTML = `<pre>Running ${endpoint} ... please wait.</pre>`;
 
     try {
