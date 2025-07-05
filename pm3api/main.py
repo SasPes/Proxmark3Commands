@@ -1,74 +1,80 @@
 import re
 import pexpect
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, PlainTextResponse
+from fastapi.responses import PlainTextResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi import Query
 
 app = FastAPI()
 
-# Start the pm3 shell (adjust path if needed)
-pm3 = pexpect.spawn('./pm3', timeout=20, encoding='utf-8')
-pm3.expect(r'pm3 -->')  # Wait for prompt
+# Mount static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-def clean_ansi(text: str) -> str:
-    """Remove ANSI escape sequences and clock emojis from output."""
-    ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
-    text = ansi_escape.sub('', text)
-    clock_emoji = re.compile(r'[\U0001F550-\U0001F567]')
-    text = clock_emoji.sub('', text)
-    lines = [line.rstrip() for line in text.splitlines()]
-    return "\n".join(lines).strip()
+# Start Proxmark3 shell
+try:
+    pm3 = pexpect.spawn('../../proxmark3/pm3', timeout=20, encoding='utf-8')
+    pm3.expect(r'pm3 -->')
+except pexpect.ExceptionPexpect as e:
+    raise RuntimeError(f"Failed to start pm3: {e}")
+
+# Compile regex for cleaning
+ansi_escape_re = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+clock_emoji_re = re.compile(r'[\U0001F550-\U0001F567]')
+
+def clean_output(text: str) -> str:
+    text = ansi_escape_re.sub('', text)
+    text = clock_emoji_re.sub('', text)
+    return '\n'.join(line.rstrip() for line in text.splitlines()).strip()
 
 def send_command(cmd: str) -> str:
-    """Send a command to pm3 and get cleaned output."""
+    if not pm3.isalive():
+        raise RuntimeError("Proxmark3 process is not alive")
     pm3.sendline(cmd)
     pm3.expect(r'pm3 -->')
-    raw_output = pm3.before
-    return clean_ansi(raw_output)
+    return clean_output(pm3.before)
+
+@app.get("/", response_class=FileResponse)
+def serve_home():
+    return FileResponse("static/index.html")
 
 @app.get("/hf/search", response_class=PlainTextResponse)
-def search_hf():
+def hf_search():
     return send_command("hf search")
 
+@app.get("/hf/mfdes/info", response_class=PlainTextResponse)
+def hf_mfdes_info():
+    return send_command("hf mfdes info")
+
 @app.get("/hf/mfdes/lsapp", response_class=PlainTextResponse)
-def mfdes_lsapp():
+def hf_mfdes_lsapp():
+    return send_command("hf mfdes lsapp")
+
+@app.get("/hf/mfdes/lsapp-no-auth", response_class=PlainTextResponse)
+def hf_mfdes_lsapp_no_auth():
     return send_command("hf mfdes lsapp --no-auth")
 
-@app.get("/", response_class=HTMLResponse)
-def home():
-    return """
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Proxmark3 Commands</title>
-      <style>
-        body { font-family: monospace, monospace; margin: 20px; }
-        #output { white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; margin-top: 10px; height: 400px; overflow: auto; background: #f9f9f9; }
-        button { font-size: 16px; padding: 10px 20px; margin-right: 10px; }
-      </style>
-    </head>
-    <body>
-      <h1>Proxmark3 Commands</h1>
-      <button onclick="doSearch('hf/search')">Run HF Search</button>
-      <button onclick="doSearch('hf/mfdes/lsapp')">Run MFDes LSApp</button>
-      <pre id="output">Click a button to run a command and see output here...</pre>
+@app.get("/hf/mfdes/get-default", response_class=PlainTextResponse)
+def hf_mfdes_get_default():
+    return send_command("hf mfdes default")
 
-      <script>
-      async function doSearch(endpoint) {
-        const out = document.getElementById('output');
-        out.textContent = `Running ${endpoint}... please wait.`;
-        try {
-          const resp = await fetch('/' + endpoint);
-          if (!resp.ok) {
-            out.textContent = 'Error: ' + resp.statusText;
-            return;
-          }
-          const text = await resp.text();
-          out.textContent = text;
-        } catch(err) {
-          out.textContent = 'Fetch error: ' + err.message;
-        }
-      }
-      </script>
-    </body>
-    </html>
-    """
+@app.get("/hf/mfdes/set-default", response_class=PlainTextResponse)
+def hf_mfdes_default(
+    key: str = Query(..., description="Hex key"),
+    type: str = Query("AES", regex="^(DES|2TDEA|3TDEA|AES)$", description="Crypto type")
+):
+    cmd = f"hf mfdes default -n 0 -t {type} -k {key}"
+    return send_command(cmd)
+
+@app.get("/hf/mfdes/getappnames", response_class=PlainTextResponse)
+def hf_mfdes_getappnames():
+    return send_command("hf mfdes getappnames")
+
+@app.get("/hf/mfdes/getfileids", response_class=PlainTextResponse)
+def get_file_ids(aid: str):
+    cmd = f"hf mfdes getfileids --aid {aid}"
+    return send_command(cmd)
+
+@app.get("/hf/mfdes/read", response_class=PlainTextResponse)
+def mfdes_read(aid: str, fid: str):
+    cmd = f"hf mfdes read --aid {aid} --fid {fid}"
+    return send_command(cmd)

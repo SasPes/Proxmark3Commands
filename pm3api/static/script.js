@@ -1,0 +1,184 @@
+function escapeHTML(str) {
+    return str.replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+function highlightOutput(text) {
+    const escaped = escapeHTML(text);
+    return escaped
+        .replace(/^(\[\+\]\s+Auth.*)$/gm, '<span class="pm-success-auth">$1</span>')
+        .replace(/^(\[\+\] #.*)$/gm, '<span class="pm-success-hash">$1</span>')
+        .replace(/^(\[\+\] \[.*\].*)$/gm, '<span class="pm-success-detail">$1</span>')
+        .replace(/^(\[\+\].*)$/gm, '<span class="pm-success">$1</span>')
+        .replace(/^(\[\*\].*)$/gm, '<span class="pm-info">$1</span>')
+        .replace(/^(\[\=\].*)$/gm, '<span class="pm-equal">$1</span>')
+        .replace(/^(\[\?\].*)$/gm, '<span class="pm-question">$1</span>')
+        .replace(/^(\[\-\].*)$/gm, '<span class="pm-warn">$1</span>')
+        .replace(/^(\[\!\!\].*)$/gm, '<span class="pm-error-double">$1</span>')
+        .replace(/^(\[\!\].*)$/gm, '<span class="pm-error">$1</span>')
+        .replace(/(UID: .*)/g, '<span class="pm-uid">$1</span>')
+        .replace(/(ATQA: .*)/g, '<span class="pm-atqa">$1</span>')
+        .replace(/\b(NO)\b/g, '<span class="pm-no">$1</span>')
+        .replace(/\b(YES)\b/g, '<span class="pm-yes">$1</span>');
+
+}
+
+async function runCmd(endpoint) {
+    const output = document.getElementById('output');
+    output.innerHTML = `Running ${endpoint}... Please wait.`;
+    try {
+        const res = await fetch('/' + endpoint);
+        if (!res.ok) throw new Error(res.statusText);
+        const text = await res.text();
+        output.innerHTML = '<pre>' + highlightOutput(text) + '</pre>';
+    } catch (err) {
+        output.innerHTML = `<pre>Error: ${err.message}</pre>`;
+    }
+}
+
+async function runDefault(event) {
+    event.preventDefault();
+    const out = document.getElementById('output');
+    out.innerHTML = `<pre>Running hf mfdes default...</pre>`;
+
+    const type = document.getElementById('type').value;
+    const key = document.getElementById('key').value;
+
+    try {
+        const res = await fetch(`/hf/mfdes/set-default?type=${encodeURIComponent(type)}&key=${encodeURIComponent(key)}`);
+        const text = await res.text();
+        out.innerHTML = `<pre>${highlightOutput(text)}</pre>`;
+    } catch (err) {
+        out.innerHTML = `<pre>Error: ${err.message}</pre>`;
+    }
+}
+
+// Called after loading apps to fill appname dropdown
+async function loadAppNames() {
+  const select = document.getElementById('appname');
+  const output = document.getElementById('output');
+  const loadAppsBtn = document.getElementById('loadAppsBtn');
+
+  loadAppsBtn.disabled = true;
+  loadAppsBtn.textContent = 'Loading apps...';
+  output.innerHTML = '<pre>Running hf mfdes getappnames... please wait.</pre>';
+
+  try {
+    const res = await fetch('/hf/mfdes/getappnames');
+    if (!res.ok) throw new Error(res.statusText);
+    const text = await res.text();
+
+    output.innerHTML = `<pre>${highlightOutput(text)}</pre>`;
+
+    // Parse AID and app name
+    const appOptions = [];
+    const regex = /\[=\] AID: (\d+) .* ISO DF name\[\d+\]:\s*(.+)$/gm;
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      const aid = match[1].padStart(6, '0');
+      const name = match[2].trim();
+      appOptions.push({ aid, name });
+    }
+
+    if (appOptions.length === 0) {
+      select.innerHTML = '<option value="">No apps found</option>';
+      select.disabled = true;  // disable dropdown if no apps found
+    } else {
+      select.innerHTML = `<option value="">-- Select App --</option>` +
+        appOptions.map(opt => `<option value="${opt.aid}">${opt.name}</option>`).join('');
+      select.disabled = false; // enable dropdown when apps loaded
+    }
+
+    // Clear file IDs dropdown and disable it
+    const fidSelect = document.getElementById('fileid');
+    fidSelect.innerHTML = '<option value="">-- Select File ID --</option>';
+    fidSelect.disabled = true;
+
+  } catch (err) {
+    output.innerHTML = `<pre>Error loading apps: ${escapeHTML(err.message)}</pre>`;
+    select.innerHTML = '<option value="">Error loading apps</option>';
+    select.disabled = true;  // disable dropdown on error
+  } finally {
+    loadAppsBtn.disabled = false;
+    loadAppsBtn.textContent = 'Get Apps';
+  }
+}
+
+// Called when user selects an app (AID) — fetch file IDs for that AID
+async function loadFileIds() {
+    const aid = document.getElementById('appname').value;
+    const fidSelect = document.getElementById('fileid');
+    const output = document.getElementById('output');
+
+    if (!aid) {
+        fidSelect.innerHTML = '<option value="">-- Select File ID --</option>';
+        fidSelect.disabled = true;
+        return;
+    }
+
+    fidSelect.disabled = true;
+    fidSelect.innerHTML = '<option>Loading file IDs...</option>';
+    output.innerHTML = `<pre>Running hf mfdes getfileids --aid ${aid} ... please wait.</pre>`;
+
+    try {
+        const res = await fetch(`/hf/mfdes/getfileids?aid=${encodeURIComponent(aid)}`);
+        if (!res.ok) throw new Error(res.statusText);
+        const text = await res.text();
+
+        output.innerHTML = `<pre>${highlightOutput(text)}</pre>`;
+
+        // Parse file IDs — example line pattern expected:
+        // [=] File ID: 01
+        const fileIds = [];
+        const regex = /\[=\] File ID: ([0-9a-fA-F]+)/gm;
+        let match;
+        while ((match = regex.exec(text)) !== null) {
+            fileIds.push(match[1]);
+        }
+
+        if (fileIds.length === 0) {
+            fidSelect.innerHTML = '<option value="">No file IDs found</option>';
+            fidSelect.disabled = true;
+        } else {
+            fidSelect.innerHTML = '<option value="">-- Select File ID --</option>' +
+                fileIds.map(fid => `<option value="${fid}">${fid}</option>`).join('');
+            fidSelect.disabled = false;
+        }
+    } catch (err) {
+        output.innerHTML = `<pre>Error loading file IDs: ${escapeHTML(err.message)}</pre>`;
+        fidSelect.innerHTML = '<option value="">Error loading file IDs</option>';
+        fidSelect.disabled = true;
+    }
+}
+
+// Called when user clicks read button
+async function runRead() {
+    const aid = document.getElementById('appname').value;
+    const fid = document.getElementById('fileid').value;
+    const output = document.getElementById('output');
+    const readBtn = document.getElementById('readBtn');
+
+    if (!aid || !fid) {
+        output.innerHTML = '<pre>Please select both App (AID) and File ID (FID).</pre>';
+        return;
+    }
+
+    readBtn.disabled = true;
+    readBtn.textContent = 'Reading...';
+    output.innerHTML = `<pre>Running hf mfdes read --aid ${aid} --fid ${fid} ... please wait.</pre>`;
+
+    try {
+        const res = await fetch(`/hf/mfdes/read?aid=${encodeURIComponent(aid)}&fid=${encodeURIComponent(fid)}`);
+        if (!res.ok) throw new Error(res.statusText);
+        const text = await res.text();
+
+        const highlighted = highlightOutput(text);
+        output.innerHTML = `<pre>${highlighted}</pre>`;
+    } catch (err) {
+        output.innerHTML = `<pre>Error: ${escapeHTML(err.message)}</pre>`;
+    } finally {
+        readBtn.disabled = false;
+        readBtn.textContent = 'Read file';
+    }
+}
