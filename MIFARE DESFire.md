@@ -25,7 +25,7 @@ hf mfdes changekey -t des --newalgo aes --newkey 5468697320697320612074657374212
 hf mfdes default -n 0 -t aes -k 54686973206973206120746573742121
 
 # Create app
-hf mfdes createapp --aid 000001 --fid 0001 --dfname github --dstalgo aes --ks1 0B --ks2 AE
+hf mfdes createapp --aid 000001 --fid 0001 --dfname github --dstalgo aes --ks1 09 --ks2 AE
 
 # Set app key
 hf mfdes changekey --aid 000001 -t aes --key 00000000000000000000000000000000 --newkey 54686973206973206120746573742121
