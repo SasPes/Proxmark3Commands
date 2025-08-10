@@ -11,10 +11,20 @@ lf search
 ```
 
 ### T55xx
-```
+```sh
 lf t55xx config
 lf t55xx dump
 lf t55xx wipe
+
+# unbrick T5577
+lf t55xx write -b 0 -d 000880E8 -p 00000000
+
+# Password set...... Yes
+lf t55xx chk
+lf t55xx info -p <pwd>
+lf t55xx dump -p <pwd> -o
+
+lf t55xx restore -f <fn>
 ```
 
 ### EM 410x / T55xx
