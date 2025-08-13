@@ -90,14 +90,22 @@ hf mf cwipe
 hf mf nested --4k --blk <Blk> -a -k <key A>
 ```
 
-### MIFARE Ultralight/C/NTAG
+### NFC / MIFARE Ultralight / NTAG / C
 imagotag G1 retail 2.6 red NFC
-```
+```sh
 hf mfu info
+
 hf mfu keygen -r
 hf mfu pwdgen -r
+
 hf mfu dump
+hf mfu dump --ns
+
+hf mfu ndefread
+
+hf mfu wipe -k FFFFFFFF
 ```
+
 ```
 emv list
 emv test
