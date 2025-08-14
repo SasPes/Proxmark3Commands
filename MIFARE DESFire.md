@@ -163,3 +163,4 @@ hf mfdes deleteapp --aid 000001
 ### Links
 1. https://github.com/RfidResearchGroup/proxmark3/blob/master/doc/ndef_type4a.md
 2. https://x41-dsec.de/lab/blog/telenot-complex-insecure-keygen/
+3. https://medium.com/@androidcrypto/mifare-desfire-ev3-a-beginner-tutorial-android-java-using-the-desfire-for-android-tools-00aaecb8fa93
