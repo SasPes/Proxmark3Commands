@@ -160,6 +160,14 @@ hf legic list
 hf legic dump
 ```
 
+### EMV cards
+Europay, Visa and Mastercard
+```
+emv list
+
+emv exec -sat
+```
+
 ## Links
 1. [Getting started with the proxmark3 easy](https://forum.dangerousthings.com/t/getting-started-with-the-proxmark3-easy/9050)
 2. [Windows binaries for the Proxmark3](https://www.proxmarkbuilds.org/)
