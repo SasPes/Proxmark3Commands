@@ -90,6 +90,12 @@ hf mf cwipe
 hf mf nested --4k --blk <Blk> -a -k <key A>
 ```
 
+Bambu Lab
+```
+hf mf keygen -r -d -k 4
+hf mf dump
+```
+
 ### NFC / MIFARE Ultralight / NTAG / C
 imagotag G1 retail 2.6 red NFC
 ```sh
