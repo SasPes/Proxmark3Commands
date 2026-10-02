@@ -143,6 +143,8 @@ Old card (MC, ID)
 ```
 hf em info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD>
 hf emrtd info -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD> -i
+
+hf em dump -n <DOC_NR> -d <birthday YYMMDD> -e <expiry date YYMMDD>
 ```
 
 ### HID SEOS
