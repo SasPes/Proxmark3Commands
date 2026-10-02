@@ -190,3 +190,4 @@ emv exec -sat
 11. [Backing Up Your Amiibo With A Proxmark3](https://farewell-ladmin.com/backing-up-your-amiibo-with-a-proxmark3/)
 12. [MIFARE DESFire](https://github.com/RfidResearchGroup/proxmark3/blob/master/doc/desfire.md)
 13. [Electronic Machine Readable Travel Document - eMRTD](https://developers-old.innovatrics.com/digital-onboarding/docs/functionalities/document/nfc-reading/)
+14. [Bambu Lab RFID Tag Guide](https://github.com/Bambu-Research-Group/RFID-Tag-Guide)
